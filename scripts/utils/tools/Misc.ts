@@ -1,9 +1,7 @@
-import {DeployerUtilsLocal} from "../../deploy/DeployerUtilsLocal";
-import {Multicall__factory} from "../../../typechain";
-import {ethers} from "hardhat";
-import {Logger} from "tslog";
-import Common from "ethereumjs-common";
-import logSettings from "../../../log_settings";
+import { ethers } from 'hardhat';
+import { Logger } from 'tslog';
+import Common from 'ethereumjs-common';
+import logSettings from '../../../log_settings';
 
 const log: Logger<undefined> = new Logger(logSettings);
 
@@ -11,22 +9,22 @@ const MATIC_CHAIN = Common.forCustomChain(
   'mainnet', {
     name: 'matic',
     networkId: 137,
-    chainId: 137
+    chainId: 137,
   },
-  'petersburg'
+  'petersburg',
 );
 
 const FANTOM_CHAIN = Common.forCustomChain(
   'mainnet', {
     name: 'fantom',
     networkId: 250,
-    chainId: 250
+    chainId: 250,
   },
-  'petersburg'
+  'petersburg',
 );
 
 // tslint:disable-next-line:no-var-requires
-const hre = require("hardhat");
+const hre = require('hardhat');
 
 export class Misc {
   public static readonly SECONDS_OF_DAY = 60 * 60 * 24;
@@ -42,11 +40,8 @@ export class Misc {
   }
 
   public static async getBlockTsFromChain(): Promise<number> {
-    const signer = (await ethers.getSigners())[0];
-    const tools = await DeployerUtilsLocal.getToolsAddresses();
-    const ctr = Multicall__factory.connect(tools.multicall, signer);
-    const ts = await ctr.getCurrentBlockTimestamp();
-    return ts.toNumber();
+    const block = await ethers.provider.getBlock(await ethers.provider.getBlockNumber());
+    return block.timestamp;
   }
 
   public static async getChainConfig() {
@@ -57,58 +52,58 @@ export class Misc {
       case 250:
         return FANTOM_CHAIN;
       default:
-        throw new Error('Unknown net ' + net.chainId)
+        throw new Error('Unknown net ' + net.chainId);
     }
   }
 
   public static platformName(n: number): string {
     switch (n) {
       case  0:
-        return 'UNKNOWN'
+        return 'UNKNOWN';
       case  1:
-        return 'TETU'
+        return 'TETU';
       case  2:
-        return 'QUICK'
+        return 'QUICK';
       case  3:
-        return 'SUSHI'
+        return 'SUSHI';
       case  4:
-        return 'WAULT'
+        return 'WAULT';
       case  5:
-        return 'IRON'
+        return 'IRON';
       case  6:
-        return 'COSMIC'
+        return 'COSMIC';
       case  7:
-        return 'CURVE'
+        return 'CURVE';
       case  8:
-        return 'DINO'
+        return 'DINO';
       case  9:
-        return 'IRON_LEND'
+        return 'IRON_LEND';
       case 10:
-        return 'HERMES'
+        return 'HERMES';
       case 11:
-        return 'CAFE'
+        return 'CAFE';
       case 12:
-        return 'TETU_SWAP'
+        return 'TETU_SWAP';
       case 13:
-        return 'SPOOKY'
+        return 'SPOOKY';
       case 14:
-        return 'AAVE_LEND'
+        return 'AAVE_LEND';
       case 15:
-        return 'AAVE_MAI_BAL'
+        return 'AAVE_MAI_BAL';
       case 16:
-        return 'GEIST'
+        return 'GEIST';
       case 17:
-        return 'HARVEST'
+        return 'HARVEST';
       case 18:
-        return 'SCREAM_LEND'
+        return 'SCREAM_LEND';
       case 19:
-        return 'KLIMA'
+        return 'KLIMA';
       case 20:
-        return 'VESQ'
+        return 'VESQ';
       case 21:
-        return 'QIDAO'
+        return 'QIDAO';
       case 22:
-        return 'SUNFLOWER'
+        return 'SUNFLOWER';
     }
     return n + '';
   }
@@ -126,7 +121,13 @@ export class Misc {
     const step = 10000;
     const block1 = await ethers.provider.getBlock(currentBlock);
     const block2 = await ethers.provider.getBlock(currentBlock - step);
-    console.log('getAverageBlockTime', block1.timestamp, block2.timestamp, step, (block1.timestamp - block2.timestamp) / step)
+    console.log(
+      'getAverageBlockTime',
+      block1.timestamp,
+      block2.timestamp,
+      step,
+      (block1.timestamp - block2.timestamp) / step,
+    );
     return (block1.timestamp - block2.timestamp) / step;
   }
 

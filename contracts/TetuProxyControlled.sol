@@ -1,21 +1,11 @@
-// SPDX-License-Identifier: ISC
-/**
-* By using this software, you understand, acknowledge and accept that Tetu
-* and/or the underlying software are provided “as is” and “as available”
-* basis and without warranties or representations of any kind either expressed
-* or implied. Any use of this open source software released under the ISC
-* Internet Systems Consortium license is done at your own risk to the fullest
-* extent permissible pursuant to applicable law any and all liability as well
-* as all warranties, including any fitness for a particular purpose with respect
-* to Tetu and/or the underlying software and the use thereof are disclaimed.
-*/
+// SPDX-License-Identifier: MIT
+
 
 pragma solidity 0.8.19;
 
 import "./interfaces/IControllable.sol";
-import "./interfaces/IControllableExtended.sol";
-import "./interfaces/ITetuProxy.sol";
 import "./UpgradeableProxy.sol";
+import "./interfaces/ITetuProxy.sol";
 
 /// @title EIP1967 Upgradable proxy implementation.
 /// @dev Only Controller has access and should implement time-lock for upgrade action.
@@ -23,8 +13,8 @@ import "./UpgradeableProxy.sol";
 contract TetuProxyControlled is UpgradeableProxy, ITetuProxy {
 
   constructor(address _logic) UpgradeableProxy(_logic) {
-    //make sure that given logic is controllable
-    require(IControllableExtended(_logic).created() >= 0);
+    //make sure that given logic is controllable and not inited
+    require(IControllable(_logic).created() == 0);
   }
 
   /// @notice Upgrade contract logic

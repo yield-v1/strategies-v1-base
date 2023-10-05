@@ -1,20 +1,10 @@
-// SPDX-License-Identifier: ISC
-/**
-* By using this software, you understand, acknowledge and accept that Tetu
-* and/or the underlying software are provided “as is” and “as available”
-* basis and without warranties or representations of any kind either expressed
-* or implied. Any use of this open source software released under the ISC
-* Internet Systems Consortium license is done at your own risk to the fullest
-* extent permissible pursuant to applicable law any and all liability as well
-* as all warranties, including any fitness for a particular purpose with respect
-* to Tetu and/or the underlying software and the use thereof are disclaimed.
-*/
+// SPDX-License-Identifier: MIT
+
 
 pragma solidity 0.8.19;
 
 import "./openzeppelin/Initializable.sol";
 import "./interfaces/IControllable.sol";
-import "./interfaces/IControllableExtended.sol";
 import "./interfaces/IController.sol";
 
 /// @title Implement basic functionality for any contract that require strict control
@@ -22,7 +12,7 @@ import "./interfaces/IController.sol";
 /// @dev Can be used with upgradeable pattern.
 ///      Require call initializeControllable() in any case.
 /// @author belbix
-abstract contract ControllableV2 is Initializable, IControllable, IControllableExtended {
+abstract contract ControllableV2 is Initializable, IControllable {
 
   bytes32 internal constant _CONTROLLER_SLOT = bytes32(uint256(keccak256("eip1967.controllable.controller")) - 1);
   bytes32 internal constant _CREATED_SLOT = bytes32(uint256(keccak256("eip1967.controllable.created")) - 1);

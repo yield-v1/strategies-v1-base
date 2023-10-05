@@ -41,6 +41,29 @@ abstract contract ProxyStrategyBase is IStrategy, ControllableV2 {
   //slither-disable-next-line unused-state
   uint256[45] private ______gap;
 
+  //************************ INIT **************************
+
+  /// @notice Initialize contract after setup it as proxy implementation
+  /// @param _controller Controller address
+  /// @param _underlying Underlying token address
+  /// @param _vault SmartVault address that will provide liquidity
+  function initializeStrategyBase(
+    address _controller,
+    address _underlying,
+    address _vault
+  ) public initializer {
+    ControllableV2.initializeControllable(_controller);
+
+    require(ISmartVault(_vault).underlying() == _underlying, "SB: Wrong underlying");
+    require(IControllable(_vault).isController(_controller), "SB: Wrong controller");
+
+    underlying = _underlying;
+    vault = _vault;
+
+    unsalvageableTokens[_underlying] = true;
+    toleranceNumerator = 999;
+  }
+
   //************************ MODIFIERS **************************
 
   /// @dev Only for linked Vault or Governance/Controller.
@@ -77,27 +100,6 @@ abstract contract ProxyStrategyBase is IStrategy, ControllableV2 {
   modifier onlyNotPausedInvesting() {
     require(!pausedInvesting, "SB: Paused");
     _;
-  }
-
-  /// @notice Initialize contract after setup it as proxy implementation
-  /// @param _controller Controller address
-  /// @param _underlying Underlying token address
-  /// @param _vault SmartVault address that will provide liquidity
-  function initializeStrategyBase(
-    address _controller,
-    address _underlying,
-    address _vault
-  ) public initializer {
-    ControllableV2.initializeControllable(_controller);
-
-    require(ISmartVault(_vault).underlying() == _underlying, "SB: Wrong underlying");
-    require(IControllable(_vault).isController(_controller), "SB: Wrong controller");
-
-    underlying = _underlying;
-    vault = _vault;
-
-    unsalvageableTokens[_underlying] = true;
-    toleranceNumerator = 999;
   }
 
   // *************** VIEWS ****************

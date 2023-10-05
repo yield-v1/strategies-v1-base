@@ -1,7 +1,7 @@
 {
-  "name": "tetu_strategies_matic",
+  "name": "strategies-v1-base",
   "version": "1.0.0",
-  "description": "Tetu strategies on Polygon",
+  "description": "Simplified strategies for v1 on Base network",
   "main": "hardhat.config.js",
   "directories": {
     "test": "test"
@@ -12,23 +12,9 @@
     "compile": "npx hardhat compile",
     "test": "npm run build && npx hardhat test",
     "coverage": "npm run build && npx cross-env NODE_OPTIONS=\"--max_old_space_size=8192\" hardhat coverage --temp artifacts --max-memory 4096",
-    "slither": "npm run build && slither .",
-    "lint": "tslint -p tsconfig.json",
-    "lint-fix": "tslint --fix -p tsconfig.json",
-    "update-block": "ts-node scripts/utils/tools/UpdateBlock.ts"
+    "slither": "npm run build && slither ."
   },
-  "keywords": [
-    "solidity",
-    "ethereum",
-    "polygon",
-    "bsc",
-    "smart",
-    "contracts",
-    "tetu"
-  ],
-  "author": "TETU team <admin@tetu.io>",
-  "license": "ISC",
-  "homepage": "https://tetu.io/",
+  "license": "MIT",
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@nomiclabs/hardhat-etherscan": "^3.1.7",
