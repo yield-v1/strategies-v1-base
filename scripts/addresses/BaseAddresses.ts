@@ -21,6 +21,11 @@ export class BaseAddresses {
   public static CURVE256_SWAPPER = '0x57205cC741f8787a5195B2126607ac505E11B650'.toLowerCase();
 
 
+  // VAULTS
+  public static xcbeth_f_VAULT  = '0xE24f2c64176eD7f9A64841Dc505B1dc87Ed9dD85'.toLowerCase();
+  public static xcbeth_f_STRATEGY  = '0x1fFC62c0750e4D2f1CE629360459226aE798FA23'.toLowerCase();
+
+
   // tokens
   public static WETH_TOKEN = '0x4200000000000000000000000000000000000006'.toLowerCase();
   public static USDC_TOKEN = '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'.toLowerCase();
