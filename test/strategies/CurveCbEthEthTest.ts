@@ -2,7 +2,14 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import { DeployInfo } from './DeployInfo';
 import { BaseAddresses } from '../../scripts/addresses/BaseAddresses';
-import { CurveStrategyCbEthEth__factory, ISmartVault, IStrategy } from '../../typechain';
+import {
+  CurveStrategyCbEthEth__factory,
+  IController__factory,
+  IERC20__factory,
+  ISmartVault,
+  IStrategy,
+  ITetuLiquidator__factory,
+} from '../../typechain';
 import { StrategyTestUtils } from './StrategyTestUtils';
 import { SpecificStrategyTest } from './SpecificStrategyTest';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
@@ -10,16 +17,57 @@ import { CoreContractsWrapper } from '../CoreContractsWrapper';
 import { DeployerUtilsLocal } from '../../scripts/deploy/DeployerUtilsLocal';
 import { universalStrategyTest } from './UniversalStrategyTest';
 import { DoHardWorkLoopBase } from './DoHardWorkLoopBase';
+import { ethers } from 'hardhat';
+import { parseUnits } from 'ethers/lib/utils';
+import { TokenUtils } from '../TokenUtils';
+import { Misc } from '../../scripts/utils/tools/Misc';
+import { BigNumber } from 'ethers';
 
 chai.use(chaiAsPromised);
 
 describe('Curve CurveStrategyCbEthEth tests', async() => {
   const underlying = BaseAddresses.CURVE_CB_ETH_ETH_LP_TOKEN;
   const strategyContractName = 'CurveStrategyCbEthEth';
+  const KIND_OF_POOL = 0;
 
   const deployInfo: DeployInfo = new DeployInfo();
   before(async function() {
     await StrategyTestUtils.deployCoreAndInit(deployInfo, false);
+
+    // setup liquidation paths
+
+    const c = await ITetuLiquidator__factory.connect(BaseAddresses.TETU_LIQUIDATOR, ethers.provider).controller();
+    const gov = await IController__factory.connect(c, ethers.provider).governance();
+    const signer = await DeployerUtilsLocal.impersonate(gov);
+    const liquidator = ITetuLiquidator__factory.connect(BaseAddresses.TETU_LIQUIDATOR, signer);
+
+    await liquidator.addBlueChipsPools([
+      {
+        pool: BaseAddresses.UNI3_USDbC_ETH_POOL,
+        swapper: BaseAddresses.UNI3_SWAPPER,
+        tokenIn: BaseAddresses.USDbC_TOKEN,
+        tokenOut: BaseAddresses.WETH_TOKEN,
+      },
+    ], false);
+
+
+    await liquidator.addLargestPools([
+      {
+        pool: BaseAddresses.CURVE_4POOL_POOL,
+        swapper: BaseAddresses.CURVE128_SWAPPER,
+        tokenIn: BaseAddresses.crvUSD_TOKEN,
+        tokenOut: BaseAddresses.USDbC_TOKEN,
+      },
+    ], false);
+
+    // await TokenUtils.getToken(BaseAddresses.crvUSD_TOKEN, signer.address, parseUnits('1'));
+    // await IERC20__factory.connect(BaseAddresses.crvUSD_TOKEN, signer).approve(liquidator.address, Misc.MAX_UINT);
+    //
+    // console.log('try to liquidate');
+    // await liquidator.liquidate(BaseAddresses.crvUSD_TOKEN, BaseAddresses.WETH_TOKEN, parseUnits('1'), 5_000);
+    //
+    // console.log('liquidated');
+
   });
 
   // only for strategies where we expect PPFS fluctuations
@@ -49,9 +97,10 @@ describe('Curve CurveStrategyCbEthEth tests', async() => {
         await CurveStrategyCbEthEth__factory.connect(strategy.address, signer).initialize(
           core.controller.address,
           vaultAddress,
-          core.announcer.address,
+          BaseAddresses.PERF_FEE_RECIPIENT_ADDRESS,
           BaseAddresses.CURVE_CB_ETH_ETH_GAUGE,
           BaseAddresses.WETH_TOKEN,
+          KIND_OF_POOL
         );
 
         return strategy;
@@ -79,6 +128,9 @@ describe('Curve CurveStrategyCbEthEth tests', async() => {
       _balanceTolerance,
       finalBalanceTolerance,
     );
+
+    hw.allowLittleDustInStrategyAfterFullExit = BigNumber.from('1605774738321861');
+
     return hw;
   };
 

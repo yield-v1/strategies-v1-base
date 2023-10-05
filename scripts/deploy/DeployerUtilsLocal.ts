@@ -22,6 +22,7 @@ import {
 } from '../../typechain';
 import { deployContract } from './DeployContract';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
+import { TokenUtils } from '../../test/TokenUtils';
 
 // tslint:disable-next-line:no-var-requires
 const hre = require('hardhat');
@@ -66,6 +67,35 @@ export class DeployerUtilsLocal {
     await DeployerUtilsLocal.wait(1);
     const proxy = await DeployerUtilsLocal.deployContract(signer, 'TetuProxyControlled', logic.address);
     return logic.attach(proxy.address) as IStrategy;
+  }
+
+
+  public static async deployVault(
+    signer: SignerWithAddress,
+    underlying: string,
+    rewardToken = Misc.ZERO_ADDRESS,
+  ): Promise<string> {
+    const core = await DeployerUtilsLocal.getCoreAddresses();
+    const undSymbol = await TokenUtils.tokenSymbol(underlying);
+
+    console.log('deploy vault for', undSymbol);
+
+    const vaultAddress = (await DeployerUtilsLocal.deployContract(
+      signer,
+      'TetuProxyControlled',
+      DeployerUtilsLocal.getVaultLogic(signer).address,
+    )).address;
+    await RunHelper.runAndWait(() => ISmartVault__factory.connect(vaultAddress, signer).initializeSmartVault(
+      'x' + undSymbol,
+      'x' + undSymbol,
+      core.controller,
+      underlying,
+      60 * 60 * 24 * 7,
+      rewardToken,
+    ));
+    console.log('vault deployed', undSymbol, vaultAddress);
+
+    return vaultAddress;
   }
 
   public static async deployAndInitVaultAndStrategy<T>(

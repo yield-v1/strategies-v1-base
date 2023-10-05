@@ -3,7 +3,7 @@
     "sourceMap": true,
     "target": "es2019",
     "module": "commonjs",
-    "strict": true,
+    "strict": false,
     "esModuleInterop": true,
     "outDir": "dist",
     "resolveJsonModule": true
@@ -16,6 +16,5 @@
   ],
   "files": [
     "./hardhat.config.ts",
-    "./scripts/addresses/addresses.ts"
   ]
 }

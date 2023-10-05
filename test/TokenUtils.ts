@@ -25,6 +25,7 @@ export class TokenUtils {
   // use the most neutral place, some contracts (like swap pairs) can be used in tests and direct transfer ruin internal logic
   public static TOKEN_HOLDERS = new Map<string, string>([
     [BaseAddresses.CURVE_CB_ETH_ETH_LP_TOKEN, '0xe9c898ba654dec2ba440392028d2e7a194e6dc3e'.toLowerCase()],
+    [BaseAddresses.crvUSD_TOKEN, '0xf6C5F01C7F3148891ad0e19DF78743D31E390D1f'.toLowerCase()],
   ]);
 
   public static async balanceOf(tokenAddress: string, account: string): Promise<BigNumber> {

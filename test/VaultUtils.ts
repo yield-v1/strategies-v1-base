@@ -50,14 +50,6 @@ export class VaultUtils {
   constructor(public vault: ISmartVault) {
   }
 
-  public static async profitSharingRatio(controller: IController): Promise<number> {
-    const ratio = (await controller.psNumerator()).toNumber()
-      / (await controller.psDenominator()).toNumber();
-    expect(ratio).is.not.lessThan(0);
-    expect(ratio).is.not.greaterThan(100);
-    return ratio;
-  }
-
   public static async deposit(
     user: SignerWithAddress,
     vault: ISmartVault,
@@ -125,7 +117,7 @@ export class VaultUtils {
 
     // const strategyName = (await strategyCtr.STRATEGY_NAME());
     // const strategyPlatform = (await strategyCtr.platform());
-    await vault.doHardWork();
+    await vault.doHardWork({ gasLimit: 15_000_000 });
     console.log('hard work called');
 
     const ppfsAfter = +utils.formatUnits(await vault.getPricePerFullShare(), undDec);

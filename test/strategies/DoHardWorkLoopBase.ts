@@ -124,14 +124,14 @@ export class DoHardWorkLoopBase {
 
   protected async loopStartActions(i: number) {
     const start = Date.now();
-    if (i > 1) {
-      const den = (await this.core.controller.psDenominator()).toNumber();
-      const newNum = +(den / i).toFixed();
-      console.log('new ps ratio', newNum, den);
-      await this.core.announcer.announceRatioChange(9, newNum, den);
-      await TimeUtils.advanceBlocksOnTs(60 * 60 * 48);
-      await this.core.controller.setPSNumeratorDenominator(newNum, den);
-    }
+    // if (i > 1) {
+    //   const den = (await this.core.controller.psDenominator()).toNumber();
+    //   const newNum = +(den / i).toFixed();
+    //   console.log('new ps ratio', newNum, den);
+    //   await this.core.announcer.announceRatioChange(9, newNum, den);
+    //   await TimeUtils.advanceBlocksOnTs(60 * 60 * 48);
+    //   await this.core.controller.setPSNumeratorDenominator(newNum, den);
+    // }
     Misc.printDuration('fLoopStartActionsDefault completed', start);
   }
 
@@ -192,6 +192,7 @@ export class DoHardWorkLoopBase {
     if (exit) {
       console.log('Full Exit from vault for user');
       const expectedOutput = await this.vaultForUser.underlyingBalanceWithInvestmentForHolder(this.user.address);
+      console.log('exit expected', expectedOutput.toString());
 
       await this.vaultForUser.exit({ gasLimit: 10_000_000 });
 
