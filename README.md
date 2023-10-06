@@ -1,47 +1,56 @@
-# How to deposit into vault (xcbeth-f  example)
+# How to deposit into vault (curve 4pool example)
 
-### Create LP on https://curve.fi/#/base/pools/factory-crypto-1/deposit
+### Create LP
+https://curve.fi/#/base/pools/factory-v2-1/deposit
 
 All other actions will be done on https://basescan.org/
 
 You will need to click on `Connect to Web3` for make calls.
 
-### Get your exact balance calling balanceOf on https://basescan.org/address/0x98244d93d42b42ab3e3a4d12a5dc0b3e7f8f32f9#readContract
+### Get your exact balance of LP calling balanceOf
+https://basescan.org/address/0xf6c5f01c7f3148891ad0e19df78743d31e390d1f#readContract
 
-balanceOf(your address)
+`balanceOf(your address)`
 
-### Approve spending the LP for the vault on https://basescan.org/address/0x98244d93d42b42ab3e3a4d12a5dc0b3e7f8f32f9#writeContract
-
-Call `approve` with params:
+### Approve spending the LP for the vault
+https://basescan.org/address/0xf6c5f01c7f3148891ad0e19df78743d31e390d1f#writeContract
+Call `approve()` with params:
 ```
-spender: 0xE24f2c64176eD7f9A64841Dc505B1dc87Ed9dD85
+spender: 0x929c79Bc01fbCEaE157F1d59D8d924B690170DdA
 amount: your balance
 ```
 
 
-### Deposit your LP in the vault on https://basescan.org/address/0xe24f2c64176ed7f9a64841dc505b1dc87ed9dd85#writeProxyContract
-Call `depositAndInvest` with params:
+### Deposit your LP in the vault 
+https://basescan.org/address/0x929c79bc01fbceae157f1d59d8d924b690170dda#writeProxyContract
+
+Call `depositAndInvest()` with params:
 ```
 amount: your balance
 ```
 
-That's all, you started earning yield on your LP tokens!
+You started earning yield on your LP tokens!
+For depositing in another vault just make the same operations on different contract.
 
 
-# How to get earned rewards (xcbeth-f example)
-
-For checking earned amount call `earned()` on https://basescan.org/address/0xe24f2c64176ed7f9a64841dc505b1dc87ed9dd85#readProxyContract
-with attributes
+### How to get earned rewards amount
+https://basescan.org/address/0x929c79bc01fbceae157f1d59d8d924b690170dda#readProxyContract
+For checking earned amount call `earned()` with attributes
 ```
 rt: reward token address
 account: your address
 ```
 
-Call `getAllRewards()` on https://basescan.org/address/0xe24f2c64176ed7f9a64841dc505b1dc87ed9dd85#writeProxyContract
+### Claim rewards
+https://basescan.org/address/0x929c79bc01fbceae157f1d59d8d924b690170dda#writeProxyContract
+Call `getAllRewards()`
 
-# How to withdraw from vault (xcbeth-f example)
 
+#### How to withdraw from vault
 
-Call `exit()` on https://basescan.org/address/0xe24f2c64176ed7f9a64841dc505b1dc87ed9dd85#writeProxyContract
+https://basescan.org/address/0x929c79bc01fbceae157f1d59d8d924b690170dda#writeProxyContract
+Call `exit()`
 
-For partially withdraw call `withdraw()`
+For partially withdraw call `withdraw()` with amount of shares.
+
+For getting your share balance call `balanceOf()` on the vault contract.

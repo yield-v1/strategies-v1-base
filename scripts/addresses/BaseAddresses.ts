@@ -22,8 +22,8 @@ export class BaseAddresses {
   public static xcbeth_f_VAULT  = '0xE24f2c64176eD7f9A64841Dc505B1dc87Ed9dD85'.toLowerCase();
   public static xcbeth_f_STRATEGY  = '0x1fFC62c0750e4D2f1CE629360459226aE798FA23'.toLowerCase();
 
-  public static x4poolUSD_f_VAULT  = '0xE24f2c64176eD7f9A64841Dc505B1dc87Ed9dD85'.toLowerCase();
-  public static x4poolUSD_f_STRATEGY  = '0x1fFC62c0750e4D2f1CE629360459226aE798FA23'.toLowerCase();
+  public static x4poolUSD_f_VAULT  = '0x929c79Bc01fbCEaE157F1d59D8d924B690170DdA'.toLowerCase();
+  public static x4poolUSD_f_STRATEGY  = '0xEf8951e097Aac5C5401116e65719A4e055A3fa24'.toLowerCase();
 
 
   // tokens
