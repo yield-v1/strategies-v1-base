@@ -5,7 +5,6 @@ pragma solidity 0.8.19;
 import "../../ProxyStrategyBase.sol";
 import "../../interfaces/ITetuLiquidator.sol";
 
-
 interface IGauge {
 
   function lp_token() external view returns (address);
@@ -157,7 +156,6 @@ abstract contract CurveStrategyBase is ProxyStrategyBase {
     }
 
     uint256 enterTokenBalance = IERC20(_enterToken).balanceOf(address(this)) - enterTokenBalanceBefore;
-
     if (enterTokenBalance != 0) {
       uint toPerfFee = enterTokenBalance * perfFeeRatio / PERF_FEE_DENOMINATOR;
       if (toPerfFee != 0) {

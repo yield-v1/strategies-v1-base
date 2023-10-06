@@ -332,38 +332,10 @@ export class DeployerUtilsLocal {
     return ethers.getSigner(address || '');
   }
 
-  public static async getUSDCAddress() {
-    const net = await ethers.provider.getNetwork();
-    if (net.chainId === 137) {
-      return BaseAddresses.USDC_TOKEN;
-    } else {
-      throw Error('No config for ' + net.chainId);
-    }
-  }
-
-
-  public static async getBlueChips() {
-    const net = await ethers.provider.getNetwork();
-    if (net.chainId === 137) {
-      return BaseAddresses.BLUE_CHIPS;
-    } else {
-      throw Error('No config for ' + net.chainId);
-    }
-  }
-
   public static async getGovernance() {
     const net = await ethers.provider.getNetwork();
     if (net.chainId === 8453) {
       return BaseAddresses.GOV_ADDRESS;
-    } else {
-      throw Error('No config for ' + net.chainId);
-    }
-  }
-
-  public static async isBlueChip(address: string): Promise<boolean> {
-    const net = await ethers.provider.getNetwork();
-    if (net.chainId === 137) {
-      return BaseAddresses.BLUE_CHIPS.has(address.toLowerCase());
     } else {
       throw Error('No config for ' + net.chainId);
     }

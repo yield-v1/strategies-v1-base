@@ -1,4 +1,4 @@
-import { IAnnouncer, IBookkeeper, IController, ISmartVault, IStrategy, IVaultController } from '../typechain';
+import { IAnnouncer, IBookkeeper, IController } from '../typechain';
 
 export class CoreContractsWrapper {
 

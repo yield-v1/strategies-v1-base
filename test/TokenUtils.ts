@@ -26,6 +26,8 @@ export class TokenUtils {
   public static TOKEN_HOLDERS = new Map<string, string>([
     [BaseAddresses.CURVE_CB_ETH_ETH_LP_TOKEN, '0xe9c898ba654dec2ba440392028d2e7a194e6dc3e'.toLowerCase()],
     [BaseAddresses.crvUSD_TOKEN, '0xf6C5F01C7F3148891ad0e19DF78743D31E390D1f'.toLowerCase()],
+    [BaseAddresses.CURVE_4POOL_POOL, '0x79edc58C471Acf2244B8f93d6f425fD06A439407'.toLowerCase()],
+    [BaseAddresses.CRV_TOKEN, '0xde37e221442fa15c35dc19fbae11ed106ba52fb2'.toLowerCase()],
   ]);
 
   public static async balanceOf(tokenAddress: string, account: string): Promise<BigNumber> {

@@ -1,26 +1,22 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import { DeployInfo } from './DeployInfo';
-import { BaseAddresses } from '../../scripts/addresses/BaseAddresses';
+import { DeployInfo } from '../DeployInfo';
+import { BaseAddresses } from '../../../scripts/addresses/BaseAddresses';
 import {
   CurveStrategyCbEthEth__factory,
   IController__factory,
-  IERC20__factory,
   ISmartVault,
   IStrategy,
   ITetuLiquidator__factory,
-} from '../../typechain';
-import { StrategyTestUtils } from './StrategyTestUtils';
-import { SpecificStrategyTest } from './SpecificStrategyTest';
+} from '../../../typechain';
+import { StrategyTestUtils } from '../StrategyTestUtils';
+import { SpecificStrategyTest } from '../SpecificStrategyTest';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/signers';
-import { CoreContractsWrapper } from '../CoreContractsWrapper';
-import { DeployerUtilsLocal } from '../../scripts/deploy/DeployerUtilsLocal';
-import { universalStrategyTest } from './UniversalStrategyTest';
-import { DoHardWorkLoopBase } from './DoHardWorkLoopBase';
+import { CoreContractsWrapper } from '../../CoreContractsWrapper';
+import { DeployerUtilsLocal } from '../../../scripts/deploy/DeployerUtilsLocal';
+import { universalStrategyTest } from '../UniversalStrategyTest';
+import { DoHardWorkLoopBase } from '../DoHardWorkLoopBase';
 import { ethers } from 'hardhat';
-import { parseUnits } from 'ethers/lib/utils';
-import { TokenUtils } from '../TokenUtils';
-import { Misc } from '../../scripts/utils/tools/Misc';
 import { BigNumber } from 'ethers';
 
 chai.use(chaiAsPromised);
@@ -100,13 +96,12 @@ describe('Curve CurveStrategyCbEthEth tests', async() => {
           BaseAddresses.PERF_FEE_RECIPIENT_ADDRESS,
           BaseAddresses.CURVE_CB_ETH_ETH_GAUGE,
           BaseAddresses.WETH_TOKEN,
-          KIND_OF_POOL
+          KIND_OF_POOL,
         );
 
         return strategy;
       },
       underlying,
-      0,
     );
   };
   const hwInitiator = (

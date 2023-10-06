@@ -21,7 +21,6 @@ export class StrategyTestUtils {
     vaultName: string,
     strategyDeployer: (vaultAddress: string) => Promise<IStrategy>,
     underlying: string,
-    depositFee = 0,
   ): Promise<[ISmartVault, IStrategy, string]> {
     let reward = Misc.ZERO_ADDRESS;
     const start = Date.now();

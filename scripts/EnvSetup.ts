@@ -26,7 +26,7 @@ export class EnvSetup {
         },
         baseForkBlock: {
           type: 'number',
-          default: 4855419,
+          default: 4895600,
         },
         loggingEnabled: {
           type: 'boolean',
