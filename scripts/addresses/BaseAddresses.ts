@@ -5,7 +5,7 @@
 export class BaseAddresses {
 
   public static ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
-  public static GOV_ADDRESS = '0xccccA67ff07be12db2aAaF0c59CeD3BbB222F883'.toLowerCase(); // todo change
+  public static GOV_ADDRESS = '0x4E08441Bf2838dc32C9B598538A3Cb62f97D2453'.toLowerCase();
   public static PERF_FEE_RECIPIENT_ADDRESS = '0x2ca37748a4eDD46d5ab6A37307d077a2fC19d1dC'.toLowerCase();
   public static VAULT_IMPLEMENTATION_ADDRESS = '0xA81d2B4f9Fa3ffc8Ce7b415562449c1271B9C9C9'.toLowerCase();
 
